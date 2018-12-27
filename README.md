@@ -135,7 +135,7 @@ Append ?google_force_console or ?googfc to your page's URL.
 For example, if your page is located at www.google.com/gpt, you’d modify the URL to www.google.com/gpt?google_force_console or www.google.com/gpt?googfc.
 
 ## Triplelift Preview Tool
-[static.theknot.com/national/ad-test-tool/index.html](static.theknot.com/national/ad-test-tool/index.html)
+[static.theknot.com/national/ad-test-tool/index.html](http://static.theknot.com/national/ad-test-tool/index.html)
 
 ## Building
 
