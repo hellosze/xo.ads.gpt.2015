@@ -1,4 +1,3 @@
-xo.ads.gpt with Webpack
 xo.ads.gpt
 ===============
 
