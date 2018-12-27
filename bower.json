@@ -1,0 +1,26 @@
+{
+  "name": "xo.ads.gpt",
+  "version": "1.10.7",
+  "authors": [
+    "Sze Chan <schan@xogrp.com>"
+  ],
+  "description": "Library for making Ad calls to XO apps.",
+  "main": "build/javascripts/xo.ads.gpt.min.js",
+  "keywords": [
+    "XO",
+    "ads",
+    "gpt",
+    "asynchronous",
+    "native"
+  ],
+  "license": "All Rights Reserved",
+  "homepage": "http://git.xogrp.com/National/xo.ads.gpt",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
