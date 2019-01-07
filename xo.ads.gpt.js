@@ -1,18 +1,21 @@
-"use strict";
-/*jslint browser: true */
-/*jslint node: true */
+/* eslint-env node, browser, mocha, document */
+/* eslint-env browser */
+/* global document */
+/* jslint browser: true */
+/* jslint node: true */
 
 var XO = XO || {};
-XO.ads = XO.ads || {};
 var googletag = googletag || {};
+
+XO.ads = XO.ads || {};
 googletag.cmd = googletag.cmd || [];
-XO.ads.version = "1.10.8";
+XO.ads.version = '1.10.8';
 XO.ads.gpt = (function(){
   
   return {
     page_metadata: {},
     hide_ads: false,
-    adSlots: ["null"],
+    adSlots: ['null'],
     setAdBackgrounds: function(){
       //will be deprecated in version 2.0
     googletag.pubads().addEventListener('slotRenderEnded', function(event) {
@@ -24,8 +27,8 @@ XO.ads.gpt = (function(){
 
     },
     setDeviceTypeMetadata:function(){
-        if(window.innerWidth > 768) { this.page_metadata["device-type"] = "desktop"; }
-        else { this.page_metadata["device-type"] = "mobile"; }
+        if(window.innerWidth > 768) { this.page_metadata['device-type'] = 'desktop'; }
+        else { this.page_metadata['device-type'] = 'mobile'; }
     },
     setPageNumberMetadata:function(){
         var pageRegExp = new RegExp(/page=(\d{1,5})/);
@@ -38,9 +41,9 @@ XO.ads.gpt = (function(){
         }
     },
     setSIDMetadata:function(){
-        if(XO.metadata.application.name === "content")
+        if(XO.metadata.application.name === 'content')
         {
-          this.page_metadata.sid = XO.metadata.entities[XO.metadata.entities.primary_entity_id].url.split("/").slice(-1);
+          this.page_metadata.sid = XO.metadata.entities[XO.metadata.entities.primary_entity_id].url.split('/').slice(-1);
         } 
     },
     retrieveMetadata: function(){
@@ -52,35 +55,35 @@ XO.ads.gpt = (function(){
 
         var audienceSegmentRegExp = new RegExp(/(wedding-categories|wedding-activities|ceremony-types)/);
 
-        this.page_metadata["page-type"] = XO.metadata.page_data.kind;
+        this.page_metadata['page-type'] = XO.metadata.page_data.kind;
         
-        if(XO.metadata.page_data.kind === "results"){
+        if(XO.metadata.page_data.kind === 'results'){
           for(var key in XO.metadata.page_data.results_terms.terms){
             if(XO.metadata.page_data.results_terms.terms.hasOwnProperty(key)){
             this.page_metadata[key] = XO.metadata.page_data.results_terms.terms[key];
             if(key.match(audienceSegmentRegExp) !== null){
-              gpt_key = key.replace(/-/g,"_");
+              gpt_key = key.replace(/-/g,'_');
               this.page_metadata[gpt_key] = XO.metadata.page_data.results_terms.terms[key];
             }
           }
           }
         }
-        if(XO.metadata.page_data.kind === "detail" || ( (XO.metadata.application.name === "fashion") && (XO.metadata.page_data.kind) )){
+        if(XO.metadata.page_data.kind === 'detail' || ( (XO.metadata.application.name === 'fashion') && (XO.metadata.page_data.kind) )){
           for(var metadata_key in XO.metadata.entities[XO.metadata.entities.primary_entity_id].terms){
             if(XO.metadata.entities[XO.metadata.entities.primary_entity_id].terms.hasOwnProperty(metadata_key)){
             this.page_metadata[metadata_key] = XO.metadata.entities[XO.metadata.entities.primary_entity_id].terms[metadata_key];
             if(metadata_key.match(audienceSegmentRegExp) !== null){
-              gpt_key = metadata_key.replace(/-/g,"_"); 
+              gpt_key = metadata_key.replace(/-/g,'_'); 
               this.page_metadata[gpt_key] = XO.metadata.entities[XO.metadata.entities.primary_entity_id].terms[metadata_key];
             }
-            if(metadata_key === "category_name"){
-              this.page_metadata["wedding-categories"] = XO.metadata.entities[XO.metadata.entities.primary_entity_id].terms[metadata_key]; 
+            if(metadata_key === 'category_name'){
+              this.page_metadata['wedding-categories'] = XO.metadata.entities[XO.metadata.entities.primary_entity_id].terms[metadata_key]; 
               this.page_metadata.wedding_categories = XO.metadata.entities[XO.metadata.entities.primary_entity_id].terms[metadata_key]; 
             }
           }
         }
         }
-        if(XO.metadata.application.name === "fashion")
+        if(XO.metadata.application.name === 'fashion')
         {
           delete this.page_metadata.description;
           delete this.page_metadata.fullPath;
@@ -92,17 +95,17 @@ XO.ads.gpt = (function(){
       }
       catch(e)
       {
-        if((e.message === "Cannot read property 'application' of undefined")&&(document.location.search === "?gpt_console")){
-          console.log("XO.metadata is undefined");
+        if((e.message === 'Cannot read property "application" of undefined')&&(document.location.search === '?gpt_console')){
+          console.log('XO.metadata is undefined');
         }       
-        if((e.message === "Cannot read property 'kind' of undefined") && (document.location.search === "?gpt_console")){
-          console.log("XO.metadata.page_data is undefined");
+        if((e.message === 'Cannot read property "kind" of undefined') && (document.location.search === '?gpt_console')){
+          console.log('XO.metadata.page_data is undefined');
         }        
-        if((e.message === "Cannot read property 'primary_entity_id' of undefined") && (document.location.search === "?gpt_console")){
-          console.log("XO.metadata.entities is undefined");
+        if((e.message === 'Cannot read property "primary_entity_id" of undefined') && (document.location.search === '?gpt_console')){
+          console.log('XO.metadata.entities is undefined');
         }
-        if((e.message === "Cannot read property 'terms' of undefined") && (document.location.search === "?gpt_console")){
-          console.log("XO.metadata.entities.primary_entity_id is undefined");          
+        if((e.message === 'Cannot read property "terms" of undefined') && (document.location.search === '?gpt_console')){
+          console.log('XO.metadata.entities.primary_entity_id is undefined');          
         }
       }
 
@@ -132,18 +135,18 @@ XO.ads.gpt = (function(){
       var page_metadata = this.page_metadata;
       googletag.cmd.push(function() {
 
-      var adSlot = googletag.defineSlot("/4879/"+adCategory+".n_TK",[width,height],idSelector);
-      adSlot.setTargeting("adsize",[width+"x"+height,"native"]);  
+      var adSlot = googletag.defineSlot('/4879/'+adCategory+'.n_TK',[width,height],idSelector);
+      adSlot.setTargeting('adsize',[width+'x'+height,'native']);  
         var targeting = adObject.targeting;
-        if(targeting !== "undefined"){
+        if(targeting !== 'undefined'){
           for(var i = 0, len = targeting.length; i < len; i++){
             var target = targeting[i];
             adSlot.setTargeting(target[0],target[1]);                
           }
         }
-        if ( typeof this.page_metadata !== "undefined"){
+        if ( typeof this.page_metadata !== 'undefined'){
             for(var key in page_metadata){
-              var gpt_key = key.replace(/-/g,"_");
+              var gpt_key = key.replace(/-/g,'_');
               adSlot.setTargeting(gpt_key,page_metadata[key]);
             }
         }
@@ -160,7 +163,7 @@ XO.ads.gpt = (function(){
   },
   refreshAdSlot:function(slotIndex,targetingArray){
     
-    if(targetingArray !== "undefined"){
+    if(targetingArray !== 'undefined'){
       XO.ads.gpt.adSlots[slotIndex].setTargeting(targetingArray[0],targetingArray[1]);
       googletag.pubads().refresh([XO.ads.gpt.adSlots[slotIndex]]);
     } else {
@@ -181,16 +184,16 @@ XO.ads.gpt = (function(){
       var adSlots = this.adSlots;
       googletag.cmd.push(function() {
 
-      var adSlot = googletag.defineSlot("/4879/"+adCategory+".n_TK",adSizes,idSelector);
+      var adSlot = googletag.defineSlot('/4879/'+adCategory+'.n_TK',adSizes,idSelector);
         var targeting = adObject.targeting;
         var adTopPosition = document.getElementById(idSelector).getBoundingClientRect().top + 1;
         
         if( (adTopPosition < 950 && window.innerWidth > 768) || (adTopPosition < 1800 && window.innerWidth < 768) ){
-          adSlot.setTargeting("premium","true");
+          adSlot.setTargeting('premium','true');
         }
 
         if( (adTopPosition > 950 && window.innerWidth > 768) || (adTopPosition > 1800 && window.innerWidth < 768) ){
-          adSlot.setTargeting("premium","false");
+          adSlot.setTargeting('premium','false');
         }
         for(var i = 0, len = targeting.length; i < len; i++){
           var target = targeting[i];
@@ -221,26 +224,26 @@ XO.ads.gpt = (function(){
 
       /* for virtual DFP Impression scoped to Fashion and Real Weddings */
       /* jshint ignore:start */
-      if(XO.metadata.application.name === "real-weddings" || XO.metadata.application.name === "fashion"){
+      if(XO.metadata.application.name === 'real-weddings' || XO.metadata.application.name === 'fashion'){
       var analytics_source;
 
 
       if(XO.metadata.page_data.kind){
-        analytics_source = "detail page";
+        analytics_source = 'detail page';
       }
       
-      if(document.querySelectorAll("[data-filter-count]").length === 1){
-        analytics_source = "filtered results page";
+      if(document.querySelectorAll('[data-filter-count]').length === 1){
+        analytics_source = 'filtered results page';
       }
 
-      if(document.querySelectorAll("[data-filter-count]").length === 0){
-        analytics_source = "unfiltered results page";
+      if(document.querySelectorAll('[data-filter-count]').length === 0){
+        analytics_source = 'unfiltered results page';
       }
 
 
       analytics.track('DFP Impression', {
         product: XO.metadata.application.name,
-        platform: "web",
+        platform: 'web',
         url: document.location.href,
         source: analytics_source
       });   
@@ -251,13 +254,13 @@ XO.ads.gpt = (function(){
   }
     catch(e)
     {   
-      if(document.location.search === "?gpt_console"){
+      if(document.location.search === '?gpt_console'){
       console.log(e.message); 
+          }
+        }
       }
     }
-  }
-}
-};
+  };
 
 
 })();

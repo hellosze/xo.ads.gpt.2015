@@ -1,0 +1,20 @@
+{
+    "parserOptions": {
+        "ecmaVersion": 6,
+        "sourceType": "module",
+        "ecmaFeatures": {
+            "jsx": true
+        }
+    },
+    "globals": {
+        "document": false
+    },
+    "env": {
+        "browser": true,
+        "node": true
+    },
+    "rules": {
+        // Possible Errors
+        "comma-dangle": [2, "never"]
+    }
+}
